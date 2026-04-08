@@ -8,7 +8,10 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DefaultDrawerFrame;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.drivers.adapter.CircleFactory;
 import edu.kis.powp.jobs2d.drivers.adapter.JobDrawerAdapter;
+import edu.kis.powp.jobs2d.drivers.adapter.RectangleFactory;
+import edu.kis.powp.jobs2d.drivers.adapter.TriangleFactory;
 import edu.kis.powp.jobs2d.events.SelectChangeVisibleOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
@@ -30,6 +33,23 @@ public class TestJobs2dPatterns {
 		application.addTest("Figure Joe 2", selectTestFigureOptionListener);
 	}
 
+	private static void setupPresetFactories(Application application) {
+
+		application.addTest("My Rectangle", (ActionEvent e) -> {
+			Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
+			RectangleFactory.createRectangle(-100, 100, 200, 100, driver).exsecute();
+		});
+
+		application.addTest("My Triangle", (ActionEvent e) -> {
+			Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
+			TriangleFactory.createTriangle(-100, 100, 200, 200, 50, 200, driver).exsecute();
+		});
+
+		application.addTest("My Circle", (ActionEvent e) -> {
+			Job2dDriver driver = DriverFeature.getDriverManager().getCurrentDriver();
+			CircleFactory.createCircle(0, 0, 150, driver).exsecute();
+		});
+	}
 	/**
 	 * Setup driver manager, and set default driver for application.
 	 * 
@@ -88,6 +108,7 @@ public class TestJobs2dPatterns {
 
 				setupDrivers(app);
 				setupPresetTests(app);
+				setupPresetFactories(app);
 				setupLogger(app);
 
 				app.setVisibility(true);
